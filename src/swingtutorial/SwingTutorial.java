@@ -5,76 +5,124 @@
  */
 package swingtutorial;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.Timer;
+import javax.swing.text.MaskFormatter;
 
 /**
  *
  * @author ueda
  */
-public class SwingTutorial {
+public class SwingTutorial extends JFrame{
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        JFrame login = new JFrame("Hello");
+    private JFrame login;
+    private JPanel pLogin;
+    private JLabel id;
+    private JLabel name;
+    private JLabel email;
+    private JLabel phone;
+    private JLabel birthday;
+    private JLabel rollNumber;
+    private JLabel className;
+    private JTextField txtId;
+    private JTextField txtName;
+    private JTextField txtEmail;
+    private JFormattedTextField txtPhone;
+    private JFormattedTextField txtBirthday;
+    private JTextField txtRollNumber;
+    private JTextField txtClassName;
+    
+    public SwingTutorial(){
+         Clock clock=new Clock();
+           getContentPane().add(clock, BorderLayout.NORTH);
+    }
+    
+    public void prepareGUI() {
+        login = new JFrame("Register");
         login.setSize(700, 500);
         login.setLocationRelativeTo(null);
         login.setLayout(null);
 
-        JPanel pLogin = new JPanel();
+        pLogin = new JPanel();
 //        pLogin.setSize(1000, 720);
         pLogin.setBackground(Color.PINK);
         pLogin.setLayout(null);
         pLogin.setBounds(100, 0, 500, 500);
+        
+        
 
-        JLabel id=new JLabel("ID");
+        id = new JLabel("ID");
         id.setBounds(100, 100, 100, 40);
-        
-        JLabel name=new JLabel("Name");
+
+        name = new JLabel("Name");
         name.setBounds(100, 140, 100, 40);
-        
-        JLabel email=new JLabel("Email");
+
+        email = new JLabel("Email");
         email.setBounds(100, 180, 100, 40);
-        
-        JLabel phone=new JLabel("Phone");
+
+        phone = new JLabel("Phone");
         phone.setBounds(100, 220, 100, 40);
         
-        JLabel rollNumber=new JLabel("Roll Number");
-        rollNumber.setBounds(100, 260, 100, 40);
-        
-        JLabel className=new JLabel("Class Name");
-        className.setBounds(100, 300, 100, 40);
-        
-        JTextField txtId=new JTextField();
+        birthday=new JLabel("Birthday");
+        birthday.setBounds(100, 260, 100, 40);
+
+        rollNumber = new JLabel("Roll Number");
+        rollNumber.setBounds(100, 300, 100, 40);
+
+        className = new JLabel("Class Name");
+        className.setBounds(100, 340, 100, 40);
+
+        txtId = new JTextField();
         txtId.setBounds(200, 100, 200, 40);
-        
-        JTextField txtName=new JTextField();
+
+        txtName = new JTextField();
         txtName.setBounds(200, 140, 200, 40);
-        
-        JTextField txtEmail=new JTextField();
+
+        txtEmail = new JTextField();
         txtEmail.setBounds(200, 180, 200, 40);
-        
-        JTextField txtPhone=new JTextField();
-        txtPhone.setBounds(200, 220, 200, 40);
-        
-        JTextField txtRollNumber=new JTextField();
-        txtRollNumber.setBounds(200, 260, 200, 40);
-        
-        JTextField txtClassName=new JTextField();
-        txtClassName.setBounds(200, 300, 200, 40);
-        
-        JButton btn=new JButton("Accept");;
-        btn.setBounds(200, 340, 200, 40);
-        
-        
-        
-        
+
+        try {
+            MaskFormatter fmPhone = new MaskFormatter("+84(####)-###-###");
+            txtPhone = new JFormattedTextField(fmPhone);
+            txtPhone.setBounds(200, 220, 200, 40);
+            pLogin.add(txtPhone);
+        } catch (ParseException e) {
+            System.err.println(e.getMessage());
+        }
+
+        try {
+            MaskFormatter fmBirthday = new MaskFormatter("##/##/####");
+            txtBirthday = new JFormattedTextField(fmBirthday);
+            txtBirthday.setBounds(200, 260, 200, 40);
+            pLogin.add(txtBirthday);
+        } catch (ParseException e) {
+            System.err.println(e.getMessage());
+        }
+
+        txtRollNumber = new JTextField();
+        txtRollNumber.setBounds(200, 300, 200, 40);
+
+        txtClassName = new JTextField();
+        txtClassName.setBounds(200, 340, 200, 40);
+
+        JButton btn = new JButton("Register");;
+        btn.setBounds(200, 380, 200, 40);
+        ButtonHandle btnHandle = new ButtonHandle();
+        btn.addActionListener(btnHandle);
+
         pLogin.add(id);
         pLogin.add(name);
         pLogin.add(email);
@@ -84,17 +132,67 @@ public class SwingTutorial {
         pLogin.add(txtId);
         pLogin.add(txtName);
         pLogin.add(txtEmail);
-        pLogin.add(txtPhone);
+        pLogin.add(birthday);
         pLogin.add(txtRollNumber);
         pLogin.add(txtClassName);
         pLogin.add(btn);
-        
+
         login.add(pLogin);
-        
-        
+
         login.setVisible(true);
         login.setLocationRelativeTo(null);
         login.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+       
     }
+
+    public static void main(String[] args) {
+//        LoginForm loginForm=new LoginForm();
+//        loginForm.setVisible(true);
+        SwingTutorial swingTutorial = new SwingTutorial();
+        swingTutorial.prepareGUI();
+
+    }
+
+    class ButtonHandle implements ActionListener {
+        
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            
+            JOptionPane.showConfirmDialog(null, "Are you sure?\n"
+                    + "ID: "+txtId.getText()+"\n"
+                    + "Name: "+txtName.getText()+"\n"
+                    + "Email: "+txtEmail.getText()+"\n"
+                    + "Phone: "+txtPhone.getText()+"\n"
+                    + "Birthday: "+txtBirthday.getText()+"\n"
+                    + "Roll number: "+txtRollNumber.getText()+"\n"
+                    + "Class name: "+txtClassName.getText()+"."
+            );
+            JOptionPane.showMessageDialog(null, "Register success!\n- Welcome to this program -");
+            
+        }
+
+    }
+    
+    class Clock extends JLabel implements ActionListener{
+        
+        public Clock(){
+            super(""+new Date());
+            Timer time=new Timer(1000, this);
+            time.start();
+        }
+        
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            Date date = new Date();
+            setText(dateFormat.format(date).toString());
+            
+        
+        }
+        
+    }
+    
+    
 
 }
