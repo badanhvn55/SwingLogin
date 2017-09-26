@@ -72,9 +72,16 @@ public class LoginForm extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            
+            txtAccount.setText("");
+            txtPassword.setText("");
         }
         
     }
+    
+    public static void main(String[] args) {
+        LoginForm login=new LoginForm();
+        login.setVisible(true);
+    }
+    
 
 }
